@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Assign5",
+      "request": "launch",
+      "mainClass": "Assign5",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+    }
+  ]
+}
