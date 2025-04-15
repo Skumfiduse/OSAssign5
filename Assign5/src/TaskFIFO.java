@@ -14,4 +14,12 @@ public class TaskFIFO {
     public String identify() {
         return "This is the TaskFIFO Talking";
     }
+
+    public void setmaxMemoryFrames(int maxMemoryFrames) {
+        this.maxMemoryFrames = maxMemoryFrames;
+    }
+
+    public void setMaxPageReference(int maxPageReference) {
+        this.MaxPageReference = maxPageReference;
+    }
 }
