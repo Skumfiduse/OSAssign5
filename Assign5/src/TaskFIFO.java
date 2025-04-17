@@ -6,7 +6,6 @@ class TaskFIFO implements Runnable {
     int MaxPageReference;
     int[] pageFaults;
     Queue<Integer> fifo;
-    int timesWon;
     int prev = 0;
     int maxDifference;
     String report = "";
@@ -24,7 +23,6 @@ class TaskFIFO implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("the thread ran well");
         // create and set pageFault = 0
         int pageFault = 0;
 
@@ -43,9 +41,6 @@ class TaskFIFO implements Runnable {
 
                 // add the needed page
                 fifo.add(page);
-
-                // increment the pageFault
-                pageFault++;
             }
         }    
         
@@ -56,7 +51,10 @@ class TaskFIFO implements Runnable {
         pageFaults[0] = pageFaults[0] + pageFault;
 
         // if current = null return
-        if (prev == 0) {return;}
+        if (prev == 0) {
+            prev = pageFault;
+            return;
+        }
 
         // if prev < current
         if (prev < pageFault) {
@@ -76,9 +74,5 @@ class TaskFIFO implements Runnable {
 
     public void setMaxPageReference(int maxPageReference) {
         this.MaxPageReference = maxPageReference;
-    }
-
-    public void incrementTimesWon() {
-        this.timesWon++;
     }
 }
