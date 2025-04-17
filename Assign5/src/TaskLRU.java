@@ -1,4 +1,4 @@
-public class TaskLRU {
+public class TaskLRU implements Runnable {
     int[] sequence;
     int maxMemoryFrames;
     int MaxPageReference;
@@ -9,6 +9,12 @@ public class TaskLRU {
         this.maxMemoryFrames = maxMemoryFrames;
         this.MaxPageReference = maxPageReference;
     }
+    
+    @Override
+    public void run() {
+        System.out.println("the thread ran well");
+    }
+
     public String identify() {
         return "This is the TaskLRU Talking";
     }
