@@ -6,9 +6,10 @@ public class Assign5 {
     public static void main(String[] args) {
         // create executor for thread management equal to the number of operating cores in the system.
         int threads = Runtime.getRuntime().availableProcessors();
-        System.out.print(threads);
         ExecutorService executor = Executors.newFixedThreadPool(threads);
         // create the pool for threads in the simulation.
+
+        
 
         // Create the vars that track how many times each algorithm has the least ammount of faults include ties. each tie goes to both counts.
         int timesFifo = 0;
@@ -53,7 +54,7 @@ public class Assign5 {
 
            
            // create the memory frames loop. loop from 1 to 100.
-           for (int j = 0; j <= 100; j++) {
+           for (int j = 1; j <= 100; j++) {
                
               // create the objects for the algorithms. pass in the sequence, size the page fault array to 101, max to null, set maxPageRef to MaxPage.
               TaskFIFO fifo = new TaskFIFO(sequence, j, maxPageReference, pageFaults);

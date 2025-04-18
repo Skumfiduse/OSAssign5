@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Assign5",
+            "request": "launch",
+            "mainClass": "Assign5",
+            "projectName": "Assignment_5_d2a1f128"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

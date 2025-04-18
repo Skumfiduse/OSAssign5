@@ -43,6 +43,10 @@ class TaskFIFO implements Runnable {
                 this.fifo.add(page);
             }
         }
+    setReport(pageFault);
+    }
+
+    public synchronized void setReport(int pageFault) {
         // place the put into the pageFaults array at the index of maxMemoryFrames
         this.pageFaults[this.maxMemoryFrames] = pageFault;
 
@@ -51,13 +55,13 @@ class TaskFIFO implements Runnable {
         this.pageFaults[0] = toAdd + pageFault;
 
         // if current = null return
-        if (this.prev == 0) {
-            this.prev = pageFault;
-            return;
-        }
+        // if (this.prev == 0) {
+        //     this.prev = pageFault;
+        //     return;
+        // }
 
         // if prev < current
-        if (this.prev <= pageFault) {
+        if (this.prev <= pageFault && this.prev != 0) {
             this.report += "detected - Previous " + prev + " : Current " + pageFault + " " + (prev - pageFault) + "\n";
             this.timesDetected++;
             if (this.prev - pageFault > this.maxDifference) {
@@ -66,6 +70,8 @@ class TaskFIFO implements Runnable {
         }
         // set current to prev.
         this.prev = pageFault;
+    
+
     }
 
     public void setmaxMemoryFrames(int newMax) {
