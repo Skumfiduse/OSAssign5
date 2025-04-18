@@ -3,7 +3,7 @@ import java.util.Queue;
 class TaskFIFO implements Runnable {
     int[] sequence;
     int maxMemoryFrames;
-    int MaxPageReference;
+    int maxPageReference;
     int[] pageFaults;
     Queue<Integer> fifo;
     int prev = 0;
@@ -15,7 +15,7 @@ class TaskFIFO implements Runnable {
     
         this.sequence = sequence;
         this.maxMemoryFrames = maxMemoryFrames;
-        this.MaxPageReference = maxPageReference;
+        this.maxPageReference = maxPageReference;
         this.pageFaults = pageFaults;
         this.fifo = new java.util.LinkedList<>();
 
@@ -27,52 +27,52 @@ class TaskFIFO implements Runnable {
         int pageFault = 0;
 
         // for each through the sequence
-        for (int page : sequence) {
+        for (int page : this.sequence) {
             // if page is not in fifo
-            if (!fifo.contains(page)) {
+            if (!this.fifo.contains(page)) {
                 // increment pageFault var.
                 pageFault++;
 
                 // if fifo is full
-                if (fifo.size() >= maxMemoryFrames) {
+                if (this.fifo.size() >= this.maxMemoryFrames) {
                     // pop the oldest page
-                    fifo.poll();
+                    this.fifo.poll();
                 }
 
                 // add the needed page
-                fifo.add(page);
+                this.fifo.add(page);
             }
-        }    
-        
+        }
         // place the put into the pageFaults array at the index of maxMemoryFrames
-        pageFaults[maxMemoryFrames] = pageFault;
+        this.pageFaults[this.maxMemoryFrames] = pageFault;
 
         // add the total of pageFault to pageFaults[0]
-        pageFaults[0] = pageFaults[0] + pageFault;
+        int toAdd = this.pageFaults[0];
+        this.pageFaults[0] = toAdd + pageFault;
 
         // if current = null return
-        if (prev == 0) {
-            prev = pageFault;
+        if (this.prev == 0) {
+            this.prev = pageFault;
             return;
         }
 
         // if prev < current
-        if (prev < pageFault) {
+        if (this.prev <= pageFault) {
             this.report += "detected - Previous " + prev + " : Current " + pageFault + " " + (prev - pageFault) + "\n";
             this.timesDetected++;
-            if (prev - pageFault > maxDifference) {
-                maxDifference = prev - pageFault;
+            if (this.prev - pageFault > this.maxDifference) {
+                this.maxDifference = this.prev - pageFault;
             }
         }
         // set current to prev.
-        prev = pageFault;
+        this.prev = pageFault;
     }
 
-    public void setmaxMemoryFrames(int maxMemoryFrames) {
-        this.maxMemoryFrames = maxMemoryFrames;
+    public void setmaxMemoryFrames(int newMax) {
+        this.maxMemoryFrames = newMax;
     }
 
     public void setMaxPageReference(int maxPageReference) {
-        this.MaxPageReference = maxPageReference;
+        this.maxPageReference = maxPageReference;
     }
 }
