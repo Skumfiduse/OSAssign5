@@ -9,6 +9,7 @@ class TaskFIFO implements Runnable {
     int maxDifference;
     String report = "";
     int timesDetected = 0;
+    String name;
 
     public TaskFIFO(int[] sequence, int maxMemoryFrames, int maxPageReference, int[] pageFaults) {
     
@@ -17,6 +18,7 @@ class TaskFIFO implements Runnable {
         this.maxPageReference = maxPageReference;
         this.pageFaults = pageFaults;
         this.fifo = new java.util.LinkedList<>();
+        this.name = "fifo" + this.maxMemoryFrames;
 
     }
 
@@ -46,8 +48,10 @@ class TaskFIFO implements Runnable {
     }
 
     public synchronized void setReport(int pageFault) {
+        
+        synchronized (this.pageFaults){
         // place the put into the pageFaults array at the index of maxMemoryFrames
-        this.pageFaults[this.maxMemoryFrames] = pageFault;
+        pageFaults[this.maxMemoryFrames] = pageFault;
 
         // add the total of pageFault to pageFaults[0]
         int toAdd = this.pageFaults[0];
@@ -65,7 +69,7 @@ class TaskFIFO implements Runnable {
                 this.maxDifference = this.pageFaults[maxMemoryFrames - 1] - pageFault;
             }
         }
-    
+        }
 
     }
 
