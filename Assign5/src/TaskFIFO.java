@@ -6,7 +6,6 @@ class TaskFIFO implements Runnable {
     int maxPageReference;
     int[] pageFaults;
     Queue<Integer> fifo;
-    int prev = 0;
     int maxDifference;
     String report = "";
     int timesDetected = 0;
@@ -53,23 +52,19 @@ class TaskFIFO implements Runnable {
         // add the total of pageFault to pageFaults[0]
         int toAdd = this.pageFaults[0];
         this.pageFaults[0] = toAdd + pageFault;
-
-        // if current = null return
-        // if (this.prev == 0) {
-        //     this.prev = pageFault;
-        //     return;
-        // }
-
+        
+        
         // if prev < current
-        if (this.prev <= pageFault && this.prev != 0) {
-            this.report += "detected - Previous " + prev + " : Current " + pageFault + " " + (prev - pageFault) + "\n";
+        // System.out.println(pageFaults[maxMemoryFrames - 1] + "    " + this.maxMemoryFrames);
+        if (pageFaults[maxMemoryFrames - 1] < pageFault && pageFaults[maxMemoryFrames - 1] != 0) { 
+            String add = "detected - Previous " + pageFaults[maxMemoryFrames - 1] + " : Current " + pageFault + " " + (pageFault - pageFaults[maxMemoryFrames - 1]  + "\n");
+            this.report = this.report + add;
             this.timesDetected++;
-            if (this.prev - pageFault > this.maxDifference) {
-                this.maxDifference = this.prev - pageFault;
+            System.out.print(this.timesDetected + "000000000000000000000000000000000000000000000000");
+            if (this.pageFaults[maxMemoryFrames - 1] - pageFault > this.maxDifference) {
+                this.maxDifference = this.pageFaults[maxMemoryFrames - 1] - pageFault;
             }
         }
-        // set current to prev.
-        this.prev = pageFault;
     
 
     }
