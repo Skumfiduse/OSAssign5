@@ -45,7 +45,7 @@ class TaskLRU implements Runnable {
     }
 
     public void setReport(int pageFault) {
-        // Save page faults at index matching the number of frames
+        // place the put into the pageFaults array at the index of maxMemoryFrames
         pageFaults[this.maxMemoryFrames] = pageFault;
     }
 }
