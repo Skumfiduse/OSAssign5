@@ -1,21 +1,51 @@
-public class TaskLRU implements Runnable {
+import java.util.LinkedList;
+
+class TaskLRU implements Runnable {
     int[] sequence;
     int maxMemoryFrames;
-    int MaxPageReference;
+    int maxPageReference;
     int[] pageFaults;
+    LinkedList<Integer> lru;
 
     public TaskLRU(int[] sequence, int maxMemoryFrames, int maxPageReference, int[] pageFaults) {
         this.sequence = sequence;
         this.maxMemoryFrames = maxMemoryFrames;
-        this.MaxPageReference = maxPageReference;
-    }
-    
-    @Override
-    public void run() {
-        System.out.println("the thread ran well");
+        this.maxPageReference = maxPageReference;
+        this.pageFaults = pageFaults;
+        this.lru = new LinkedList<>();
     }
 
-    public String identify() {
-        return "This is the TaskLRU Talking";
+    @Override
+    public void run() {
+        // Create page fault and set to 0
+        int pageFault = 0;
+
+        // for each through the sequence
+        for (int page : sequence) {
+            // if page is not in fifo
+            if (!lru.contains(page)) {
+                // increment pageFault var.
+                pageFault++;
+                
+                // if fifo is full
+                if (lru.size() >= maxMemoryFrames) {
+                    // Remove least recently used page
+                    lru.removeFirst();
+                }
+            } else {
+                // If it's there remove it
+                lru.remove((Integer) page);
+            }
+
+            // Add it back in at the end of list.
+            lru.addLast(page);
+        }
+
+        setReport(pageFault);
+    }
+
+    public void setReport(int pageFault) {
+        // Save page faults at index matching the number of frames
+        pageFaults[this.maxMemoryFrames] = pageFault;
     }
 }
